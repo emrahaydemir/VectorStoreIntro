@@ -32,3 +32,9 @@ documents = [
         metadata={"source": "mammal-pets-doc"},
     ),
 ]
+
+vectorstore = Chroma.from_documents(documents=documents, embedding=OpenAIEmbeddings())
+
+if __name__ == "__main__":
+    embedding = OpenAIEmbeddings().embed_query("dog")
+    print(vectorstore.similarity_search_by_vector(embedding=embedding))
