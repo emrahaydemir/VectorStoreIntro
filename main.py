@@ -10,7 +10,7 @@ from langchain_core.runnables import RunnablePassthrough
 load_dotenv()
 
 
-documents = [
+documents = [  # vector documentleri olustur. bunlar dosyalar da olabilir, metadata istege baglidir. fakat source belirteci daha anlasilabilir olmasi acisindan onemli
     Document(
         page_content="Dogs are great companions, known for their loyalty and friendliness.",
         metadata={"source": "mammal-pets-doc"},
@@ -36,5 +36,13 @@ documents = [
 vectorstore = Chroma.from_documents(documents=documents, embedding=OpenAIEmbeddings())
 
 if __name__ == "__main__":
-    embedding = OpenAIEmbeddings().embed_query("dog")
-    print(vectorstore.similarity_search_by_vector(embedding=embedding))
+    embedding = OpenAIEmbeddings().embed_query(
+        "dog"
+    )  # "dog" querysine sahip bir vector olusturduk
+    print(
+        vectorstore.similarity_search_by_vector(embedding=embedding)
+    )  # olusturulan vectoru, vectorstore uzerinden similarity aramasinda kullandik.
+    print(vectorstore.similarity_search("cat"))  # kelime bazli arama
+    print(
+        vectorstore.similarity_search_with_score("rabbit")
+    )  # burada kelime bazli arama yapilir, ekstra olarak eslesme skorlari da sonuclara eklenir
